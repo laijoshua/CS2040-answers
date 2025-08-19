@@ -1,5 +1,5 @@
 # CS2040-answers
-My answers to CS2040's one day assignments &amp; take home assignments
+My answers to CS2040's one day assignments &amp; take home assignments, all of which are problems taken from Kattis.
 
 ## Ungraded Assignments:
 1. [Autori](#Autori)
