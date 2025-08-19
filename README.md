@@ -3,7 +3,7 @@ My answers to CS2040's one day assignments &amp; take home assignments
 
 ## Sections:
 1. [Autori](#Autori)
-2. [Take Two Stones](#TakeTwoStones)
+2. [Take Two Stones](#Take Two Stones)
 
 ## Autori
 Great scientific discoveries are often named by the last names of scientists that made them. For example, the most popular asymmetric cryptography system, RSA was discovered by Rivest, Shamir and Adleman. Another notable example is the Knuth-Morris-Pratt algorithm, named by Knuth, Morris and Pratt.
@@ -39,7 +39,7 @@ public class autori {
 }
 ```
 
-## TakeTwoStones
+## Take Two Stones
 Alice and Bob are playing a new game of stones. There are N stones placed on the ground, forming a sequence. The stones are labeled from 1 to N.
 
 Alice and Bob in turns take exactly two consecutive stones on the ground until there are no consecutive stones on the ground. That is, each player can take stone i and stone i+1, where 1<=i<=N-1. If the number of stone left is odd, Alice wins. Otherwise, Bob wins.
