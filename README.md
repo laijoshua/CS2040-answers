@@ -9,10 +9,24 @@ My answers to CS2040's one day assignments &amp; take home assignments
 1. [Pea Soup & Pancakes](#Pea-Soup-&-Pancakes)
 2. [T9 Spelling](#T9-Spelling)
 3. [Sort of Sorting](#Sort-of-Sorting)
+4. [Coconut Splat](#Coconut-Splat)
+5. [Conformity](#Conformity)
+6. [Assigning Workstations](#Assigning-Workstations)
+7. [Kattis's Quest](#Kattis's-Quest)
+8. [Weak Vertices](#Weak-Vertices)
+9. [Islands](#Islands)
+10. [Lost Map](#Lost-Map)
+11. [Human Cannonball Run](#Human-Cannonball-Run)
 
 ## Take Home Assignments
 1. [Best Relay Team](#Best-Relay-Team)
 2. [Card Trading](#Card-Trading)
+3. [Join Strings](#Join-Strings)
+4. [Teque](#Teque)
+5. [Almost Union Find](#Almost-Union-Find)
+6. [Nicknames](#Nicknames)
+7. [Millionaire Madness](#Millionaire-Madness)
+8. [Dominos](#Dominos)
 
 ## Autori
 Great scientific discoveries are often named by the last names of scientists that made them. For example, the most popular asymmetric cryptography system, RSA was discovered by Rivest, Shamir and Adleman. Another notable example is the Knuth-Morris-Pratt algorithm, named by Knuth, Morris and Pratt. Scientific papers reference earlier works a lot and it’s not uncommon for one document to use two different naming conventions: the short variation (e.g. KMP) using only the first letters of authors last names and the long variation (e.g. Knuth-Morris-Pratt) using complete last names separated by hyphens. We find mixing two conventions in one paper to be aesthetically unpleasing and would like you to write a program that will transform long variations into short.
@@ -118,6 +132,13 @@ public class peasoup {
 ```
 
 ## T9 Spelling
+The Latin alphabet contains 26 characters and telephones only have ten digits on the keypad. We would like to make it easier to write a message to your friend using a sequence of keypresses to indicate the desired characters. The letters are mapped onto the digits as shown below. To insert the character ‘B’ for instance, the program would press “22”. In order to insert two characters in sequence from the same key, the user must pause before pressing the key a second time. The space character ‘ ’ should be printed to indicate a pause. For example, “2 2” indicates “AA” whereas “22” indicates “B”.
+
+Input
+The first line of input gives the number of cases, N (1<=N<=100). N test cases follow. Each case is a line of text containing the desired message, which will be at most 1000 characters long. Each message will consist of only lowercase characters ‘a’–‘z’ and space characters ‘ ’. Pressing zero emits a space.
+
+Output
+For each test case, output one line containing “Case #x:" followed by the message translated into the sequence of key presses.
 
 ```java
 import java.io.*;
@@ -177,6 +198,13 @@ public class t9spelling {
 ```
 
 ## Best Relay Team
+You are the coach of the national athletics team and need to select which sprinters should represent your country in the 4 x 100 m relay in the upcoming championships. As the name of the event implies, such a sprint relay consist of 4 legs, 100 meters each. One would think that the best team would simply consist of the 4 fastest 100 m runners in the nation, but there is an important detail to take into account: flying start. In the 2nd, 3rd and 4th leg, the runner is already running when the baton is handed over. This means that some runners – those that have a slow acceleration phase – can perform relatively better in a relay if they are on the 2nd, 3rd or 4th leg. You have a pool of runners to choose from. Given how fast each runner in the pool is, decide which four runners should represent your national team and which leg they should run. You are given two times for each runner – the time the runner would run the 1st leg, and the time the runner would run any of the other legs. A runner in a team can only run one leg.
+
+Input
+The first line of input contains an integer n, the number of runners to choose from (4<=n<=500). Then follow n lines describing the runners. The i’th of these lines contains the name of the i’th runner, the time $`a_i`$ for the runner to run the 1st leg, and the time $`b_i`$ for the runner to run any of the other legs ($`8\le b_i\le a_i<20`$). The names consist of between 2 and 20 (inclusive) uppercase letters ‘A’-‘Z’, and no two runners have the same name. The times are given in seconds with exactly two digits after the decimal point.
+
+Output
+First, output a line containing the time of the best team, accurate to an absolute or relative error of at most $`10^{-9}`$. Then output four lines containing the names of the runners in that team. The first of these lines should contain the runner you have picked for the 1st leg, the second line the runner you have picked for the 2nd leg, and so on. Any solution that results in the fastest team is acceptable.
 
 ```java
 import java.util.*;
@@ -386,6 +414,1779 @@ public class cardtrading {
     }
 }
 ```
+## Coconut Splat
+
+```java
+import java.io.*;
+import java.util.*;
+
+class Person {
+    public int no;
+    public int hand;
+    public Person (int no, int hand) {
+        this.no = no;
+        this.hand = hand;
+        // 0 if folded
+        // 1 if fist
+        // 2 if palm down
+    }
+    public int getNo() {return no;}
+    public int getHand() {return hand;}
+    public void setHand(int new_hand) {this.hand = new_hand;}
+}
+
+public class coconutsplat {
+    public static void main(String[] args) throws IOException {
+        Reader sc = new Reader();
+        PrintWriter pw = new PrintWriter(System.out);
+        int syllables = sc.nextInt() ;
+        int players = sc.nextInt();
+
+        ArrayList<Person> arrlst = new ArrayList<Person>();
+        for (int i = 0; i < players; i++) {
+            arrlst.add(new Person(i+1, 0));
+        }
+        
+        int idx = 0;
+        while (arrlst.size() > 1) {
+            idx =  (idx + syllables - 1) % arrlst.size();
+            if (arrlst.get(idx).getHand() == 0) { //if hand is folded, change to fist and add another fist
+                arrlst.get(idx).setHand(1);
+                int person_no = arrlst.get(idx).getNo();
+                arrlst.add(idx, new Person(person_no, 1));
+            } else if (arrlst.get(idx).getHand() == 1) { //if hand is fist, change to palm down
+                arrlst.get(idx).setHand(2);
+                idx += 1;
+            } else if (arrlst.get(idx).getHand() == 2) { //if hand is palm down, remove from game
+                arrlst.remove(arrlst.get(idx));
+            }
+        }
+        pw.println(arrlst.get(0).getNo());
+        pw.flush(); // need to flush!
+    }
+
+    static class Reader {
+        final private int BUFFER_SIZE = 1 << 16;
+        private DataInputStream din;
+        private byte[] buffer;
+        private int bufferPointer, bytesRead;
+        public Reader() {
+            din = new DataInputStream(System.in);
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
+        public int nextInt() throws IOException {
+            int ret = 0;
+            byte c = read();
+            while (c <= ' ') c = read();
+            boolean neg = (c == '-');
+            if (neg) c = read();
+            do {
+                ret = ret * 10 + c - '0';
+            } while ((c = read()) >= '0' && c <= '9');
+            return neg ? -ret : ret;
+        }
+        private void fillBuffer() throws IOException {
+            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+            if (bytesRead == -1) buffer[0] = -1;
+        }
+        private byte read() throws IOException {
+            if (bufferPointer == bytesRead) fillBuffer();
+            return buffer[bufferPointer++];
+        }
+    }
+}
+```
+
+## Join Strings
+
+```java
+import java.io.*;
+import java.util.*;
+
+public class joinstrings {
+    public static void main(String[] args) throws IOException {
+        FastIO fio = new FastIO();
+        int no_words = fio.nextInt();
+
+        TailedLL[] arr = new TailedLL[no_words]; //creates an empty tailed linked list with the size specified
+        for (int i = 0; i < no_words; i++) {
+            ListNode node = new ListNode(fio.nextLine()); //creates a node storing word
+            TailedLL list = new TailedLL();
+            list.insertNode(node); //adds the node into a tailed linked list
+            arr[i] = list; //adds the tailed linked list containing the node into the larger tailed linked list
+        }
+
+        int print_idx = 0;
+        for (int j = 0; j < no_words - 1; j++) {
+            int a = fio.nextInt() - 1;
+            int b = fio.nextInt() - 1;
+            arr[a].insertLL(arr[b]); //links the 2 linked lists tgt
+            print_idx = a; //changes the index to print to the first no of the input line
+        }
+
+        TailedLL list_to_print = arr[print_idx];
+        ListNode cur = list_to_print.head; //creates a pointer pointing to the head of the tailed linked list to print
+        fio.print(cur.getItem());
+        for (int y = 0; y < list_to_print.no_nodes - 1; y++){
+            cur = cur.next; //moves to neighbour
+            fio.print(cur.getItem());
+        /*for (TailedLL list : arr) {
+            ListNode cur = list.head;
+            fio.print(cur.getItem());
+            for (int k = 0; k < list.no_nodes - 1; k++){
+                cur = cur.next;
+                fio.print(cur.getItem());*/
+        }
+        fio.close();
+    }
+}
+class ListNode {//from lecture notes
+    public String word;
+    public ListNode next;
+    public ListNode (String word) {
+        this.word = word;
+        this.next = null;
+    }
+    public ListNode getNext() {return next;}
+    public void setNext(ListNode n) {this.next = n;}
+    public String getItem() {return word;}
+    public void setItem(String word) {this.word = word;}
+}
+
+class TailedLL {
+    public ListNode head;
+    public ListNode tail;
+    public int no_nodes;
+    public TailedLL() {
+        no_nodes = 0;
+    }
+    public void insertNode (ListNode node) {
+        node.setNext(this.head);
+        this.head = node;
+        this.tail = head;
+        no_nodes++;
+    }
+    public void insertLL (TailedLL list) {
+        tail.next = list.head;
+        tail = list.tail;
+        no_nodes += list.no_nodes;
+    }
+}
+
+class FastIO extends PrintWriter {
+    BufferedReader br;
+    StringTokenizer st;
+
+    public FastIO() {
+        super(new BufferedOutputStream(System.out));
+        br = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    String next() {
+        while (st == null || !st.hasMoreElements()) {
+            try {
+                st = new StringTokenizer(br.readLine());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return st.nextToken();
+    }
+
+    int nextInt() {
+        return Integer.parseInt(next());
+    }
+
+    long nextLong() {
+        return Long.parseLong(next());
+    }
+
+    double nextDouble() {
+        return Double.parseDouble(next());
+    }
+
+    String nextLine() {
+        String str = "";
+        try {
+            str = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+}
+```
+
+## Teque
+
+```java
+import java.io.*;
+import java.util.*;
+
+public class Teque {
+    public static void main(String[] args) throws IOException {
+        FastIO fio = new FastIO();
+        int no_ops = fio.nextInt();
+
+        HashMap<Integer, Integer> front_half = new HashMap<>(); //1st half of teque
+        HashMap<Integer, Integer> back_half = new HashMap<>(); //2nd half of teque
+        int front_head = 0;
+        int front_tail = 0;
+        int back_head = 0;
+        int back_tail = 0;
+
+        for (int i = 0; i < no_ops; i++) {
+            String cmd = fio.next();
+            int no = fio.nextInt();
+
+            if (cmd.equals("push_front")) { //insert at the front of 1st hashmap ie key is as low as possible
+                front_head -= 1;
+                front_half.put(front_head, no);
+            } else if (cmd.equals("push_back")) { //insert at the end of 2nd hashmap ie key is as high as possible
+                back_half.put(back_tail, no);
+                back_tail += 1;
+            } else if (cmd.equals("push_middle")) { //insert at (k+1)/2 index of entire teque
+                if (front_half.size() == back_half.size()) { //insert at the start of 2nd hashmap ie key is as low as possible
+                    back_head -= 1;
+                    back_half.put(back_head, no);
+                } else { //insert at the end of 1sr hashmap ie key is as low as possible
+                    front_half.put(front_tail, back_half.get(back_head));
+                    front_tail += 1;
+                    back_half.put(back_head, no);
+                }
+            } else if (cmd.equals("get")) {
+                if (no >= front_half.size()) { //find out which hashmap the key is in
+                    int back_key = no - front_half.size() + back_head;
+                    fio.println(back_half.get(back_key));
+                } else {
+                    int front_key = no + front_head;
+                    fio.println(front_half.get(front_key));
+                }
+            }
+            //rebalancing the 2 hashmap to make sure front_tail or back_head is in the middle
+            if (front_half.size() > back_half.size()) { //if 1st half bigger than 2nd half, remove end of 1st half and insert in start of 2nd half
+                front_tail -= 1;
+                back_head -= 1;
+                back_half.put(back_head,front_half.get(front_tail));
+                front_half.remove(front_tail);;
+            } else if (front_half.size()  < back_half.size() - 1) { //if 1st half smaller than 2nd half, remove start of 2nd half and insert in end of 1st half
+                front_half.put(front_tail, back_half.get(back_head));
+                front_tail += 1;
+                back_head += 1;
+                back_half.remove(back_head - 1);
+            }
+        }
+        fio.close();
+    }
+}
 
 
+class FastIO extends PrintWriter {
+    BufferedReader br;
+    StringTokenizer st;
 
+    public FastIO() {
+        super(new BufferedOutputStream(System.out));
+        br = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    String next() {
+        while (st == null || !st.hasMoreElements()) {
+            try {
+                st = new StringTokenizer(br.readLine());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return st.nextToken();
+    }
+
+    int nextInt() {
+        return Integer.parseInt(next());
+    }
+
+    long nextLong() {
+        return Long.parseLong(next());
+    }
+
+    double nextDouble() {
+        return Double.parseDouble(next());
+    }
+
+    String nextLine() {
+        String str = "";
+        try {
+            str = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+}
+```
+
+## Conformity
+
+```java
+import java.io.*;
+import java.util.*;
+
+public class conformity {
+    public static void main(String[] args) throws IOException {
+        Reader sc = new Reader();
+        PrintWriter pw = new PrintWriter(System.out);
+        int no_students= sc.nextInt();
+
+        HashMap<String, Integer> dict = new HashMap<>();
+        for (int i = 0; i < no_students; i++) {
+            int[] subject_combi = new int[5];
+            for (int j = 0; j < 5; j++) {
+                int subject = sc.nextInt();
+                subject_combi[j] = subject;
+            }
+            Arrays.sort(subject_combi);
+            String x = Arrays.toString(subject_combi);
+            //pw.println(Arrays.toString(subject_combi));
+            if (dict.containsKey(x)) {
+                int value = dict.get(x);
+                dict.put(x, value + 1);
+                //dict.get(subject_combi) += 1;
+            } else {
+                dict.put(x, 1);
+            }
+        }
+        Collection<Integer> arr = dict.values();
+        ArrayList<Integer> list_values = new ArrayList<>(arr);
+        //pw.println(list_values);
+        int max = Collections.max(arr);
+        int ans = 0;
+        for (int item : list_values) {
+            if (item == max) {
+                ans += item;
+            }
+        }
+        pw.println(ans);
+        pw.flush();
+    }
+}
+
+class Reader {
+    final private int BUFFER_SIZE = 1 << 16;
+    private DataInputStream din;
+    private byte[] buffer;
+    private int bufferPointer, bytesRead;
+    public Reader() {
+        din = new DataInputStream(System.in);
+        buffer = new byte[BUFFER_SIZE];
+        bufferPointer = bytesRead = 0;
+    }
+    public int nextInt() throws IOException {
+        int ret = 0;
+        byte c = read();
+        while (c <= ' ') c = read();
+        boolean neg = (c == '-');
+        if (neg) c = read();
+        do {
+            ret = ret * 10 + c - '0';
+        } while ((c = read()) >= '0' && c <= '9');
+        return neg ? -ret : ret;
+    }
+    private void fillBuffer() throws IOException {
+        bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+        if (bytesRead == -1) buffer[0] = -1;
+    }
+    private byte read() throws IOException {
+        if (bufferPointer == bytesRead) fillBuffer();
+        return buffer[bufferPointer++];
+    }
+}
+```
+
+## Assigning Workstations
+
+```java
+import java.io.*;
+import java.util.*;
+
+public class workspace {
+    public static void main(String[] args) throws IOException {
+        Reader sc = new Reader();
+        PrintWriter pw = new PrintWriter(System.out);
+        int no_researchers = sc.nextInt();
+        int mins_inactivity = sc.nextInt();
+
+        arrival_comparator arrival_comp = new arrival_comparator();
+        PriorityQueue<Researcher> workstation_queue = new PriorityQueue<>(no_researchers, arrival_comp);
+        PriorityQueue<Integer> workstation = new PriorityQueue<>();
+
+        for (int i = 0; i < no_researchers; i++) {
+            int a = sc.nextInt();
+            int s = sc.nextInt();
+            workstation_queue.add(new Researcher(a, s));
+        }
+
+        int counter = 0;
+        while (!workstation_queue.isEmpty()) {
+            Researcher x = workstation_queue.poll();
+            while (!workstation.isEmpty() && x.getArrival_time() > workstation.peek() + mins_inactivity) {
+                workstation.poll();
+                //pw.println(1);
+            }
+            if (workstation.isEmpty()) { //if empty, unlock one time, and add the time that the workstation will be free to PQ2
+                workstation.add(x.getDeparture_time());
+                counter++;
+            } else if (x.getArrival_time() < workstation.peek()) { //if workstation is still being used, unlock another workstation and add the time that the workstation will be free to PQ2
+                workstation.add(x.getDeparture_time());
+                counter++;
+            } else if (x.getArrival_time() > workstation.peek() + mins_inactivity) { //if workstation is not used, and time > the no of mins of inactivity has passed, unlock workstation and add the time that the workstation will be free to PQ2
+                workstation.poll();
+                workstation.add(x.getDeparture_time());
+                counter++;
+            } else {//if (x.getArrival_time() <= workstation.peek() + mins_inactivity || x.getArrival_time() >= workstation.peek()) { //dont need to unlock workstation, researcher can just take over; add time that workstation will be free to PQ2
+                workstation.poll();
+                workstation.add(x.getDeparture_time());
+            }
+            //pw.println(workstation);
+            //pw.println("end");
+        }
+        pw.println(no_researchers - counter);
+        pw.flush();
+    }
+}
+
+class Researcher {
+    public int arrival_time;
+    public int duration;
+    public Researcher(int arrival_time, int duration){
+        this.arrival_time = arrival_time;
+        this.duration = duration;
+    }
+    public int getArrival_time() {return arrival_time;}
+    public int getDuration() {return duration;}
+    public int getDeparture_time() {return arrival_time + duration;}
+}
+
+class arrival_comparator implements Comparator <Researcher> {
+    public int compare (Researcher r1, Researcher r2) {
+        if (Integer.compare(r1.getArrival_time(), r2.getArrival_time()) == 0 ) {
+            return Integer.compare(r1.getDeparture_time(), r2.getDeparture_time());
+        } else {
+            return Integer.compare(r1.getArrival_time(), r2.getArrival_time());
+        }
+    }
+}
+
+class Reader {
+    final private int BUFFER_SIZE = 1 << 16;
+    private DataInputStream din;
+    private byte[] buffer;
+    private int bufferPointer, bytesRead;
+    public Reader() {
+        din = new DataInputStream(System.in);
+        buffer = new byte[BUFFER_SIZE];
+        bufferPointer = bytesRead = 0;
+    }
+    public int nextInt() throws IOException {
+        int ret = 0;
+        byte c = read();
+        while (c <= ' ') c = read();
+        boolean neg = (c == '-');
+        if (neg) c = read();
+        do {
+            ret = ret * 10 + c - '0';
+        } while ((c = read()) >= '0' && c <= '9');
+        return neg ? -ret : ret;
+    }
+    private void fillBuffer() throws IOException {
+        bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+        if (bytesRead == -1) buffer[0] = -1;
+    }
+    private byte read() throws IOException {
+        if (bufferPointer == bytesRead) fillBuffer();
+        return buffer[bufferPointer++];
+    }
+}
+```
+
+## Kattis's Quest
+
+```java
+import java.io.*;
+import java.util.*;
+
+public class kattisquest {
+    public static void main(String[] args) throws IOException {
+        FastIO fio = new FastIO();
+        int no_cmd = fio.nextInt();
+
+        questComparator questComp = new questComparator();
+        TreeMap<ArrayList<Long>, Integer> quest_list = new TreeMap<ArrayList<Long>, Integer>(questComp);
+        for (int i = 0; i < no_cmd; i++) {
+            String cmd = fio.next();
+            if (cmd.equals("add")) {
+                long energy = fio.nextLong();
+                long gold = fio.nextLong();
+                ArrayList<Long> x = new ArrayList<Long>();
+                x.add(energy);
+                x.add(gold);
+                //fio.println(x);
+                if (quest_list.containsKey(x)) { //if key in treemap, increase value by 1
+                    quest_list.put(x, quest_list.get(x) + 1);
+                } else { //if key not in treemap, put in treemap with default value of 1
+                    quest_list.put(x, 1);
+                }
+            } else if (cmd.equals("query")){
+                long x = fio.nextLong();
+                long total = 0;
+                while (quest_list.floorKey(new ArrayList<Long>(Arrays.asList(x,(long)1000000))) != null) {  //(!quest_list.isEmpty() && x >= quest_list.firstKey().get(0)) {
+                    ArrayList<Long> quest = new ArrayList<Long>();
+                    quest.add(x);
+                    quest.add((long)1000000);
+                    ArrayList<Long> q = quest_list.floorKey(quest);
+                    if (quest_list.get(q) == 1) {
+                        quest_list.remove(q);
+                    } else {
+                        quest_list.put(q, quest_list.get(q) - 1);
+                    }
+                    x -= q.get(0);
+                    total += q.get(1);
+                }
+                fio.println(total);
+            }
+        }
+        //fio.print(quest_list);
+        fio.flush();
+    }
+}
+
+class FastIO extends PrintWriter {
+    BufferedReader br;
+    StringTokenizer st;
+
+    public FastIO() {
+        super(new BufferedOutputStream(System.out));
+        br = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    String next() {
+        while (st == null || !st.hasMoreElements()) {
+            try {
+                st = new StringTokenizer(br.readLine());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return st.nextToken();
+    }
+
+    int nextInt() {
+        return Integer.parseInt(next());
+    }
+
+    long nextLong() {
+        return Long.parseLong(next());
+    }
+
+    double nextDouble() {
+        return Double.parseDouble(next());
+    }
+
+    String nextLine() {
+        String str = "";
+        try {
+            str = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+}
+
+class questComparator implements Comparator<ArrayList<Long>>{
+    public int compare(ArrayList<Long> o1, ArrayList<Long> o2) {
+        if (Long.compare(o1.get(0), o2.get(0)) == 0) {
+            return Long.compare(o1.get(1), o2.get(1));
+        } else {
+            return Long.compare(o1.get(0), o2.get(0));
+        }
+    }
+}
+```
+
+## Almost Union Find
+
+```java
+import java.io.*;
+import java.util.Arrays;
+
+public class almostunionfindv3 {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(System.out);
+        String line1 = br.readLine();
+        while(line1 != null && !line1.isEmpty()) {
+            String[] line = line1.split(" ");
+            int no_int = Integer.parseInt(line[0]);
+            int no_cmd = Integer.parseInt(line[1]);
+            UnionFind disjointSet = new UnionFind(no_int + 1);
+            for (int i = 0; i < no_cmd; i++) {
+                String subline1 = br.readLine();
+                String[] subline = subline1.split(" ");
+                int cmd = Integer.parseInt(subline[0]);
+                if (cmd == 1) {
+                    int p = Integer.parseInt(subline[1]);
+                    int q = Integer.parseInt(subline[2]);
+                    disjointSet.unionSet(p, q);
+                    /*pw.println(Arrays.toString(disjointSet.p));
+                    pw.println(Arrays.toString(disjointSet.next));
+                    pw.println(Arrays.toString(disjointSet.sum));
+                    pw.println(Arrays.toString(disjointSet.size));*/
+                } else if (cmd == 2) {
+                    int p = Integer.parseInt(subline[1]);
+                    int q = Integer.parseInt(subline[2]);
+                    disjointSet.move(p, q);
+                    /*pw.println(Arrays.toString(disjointSet.p));
+                    pw.println(Arrays.toString(disjointSet.next));
+                    pw.println(Arrays.toString(disjointSet.sum));
+                    pw.println(Arrays.toString(disjointSet.size));*/
+                } else {
+                    int set = Integer.parseInt(subline[1]);
+                    int p = disjointSet.findSet(set);
+                    //pw.println(p);
+                    pw.println(disjointSet.size[p] + " " + disjointSet.sum[p]);
+                    /*pw.println(Arrays.toString(disjointSet.p));
+                    pw.println(Arrays.toString(disjointSet.next));
+                    pw.println(Arrays.toString(disjointSet.sum));
+                    pw.println(Arrays.toString(disjointSet.size));*/
+                    /*pw.println(disjointSet.findSet(5));
+                    pw.println(disjointSet.findSet(3));
+                    pw.println(disjointSet.findSet(4));*/
+
+                }
+            }
+            line1 = br.readLine();
+        }
+        pw.flush();
+    }
+}
+
+class UnionFind {
+    public int[] p;
+    public int[] next;
+    public int[] size;
+    public long[] sum;
+    public int[] rank;
+
+    public UnionFind(int N) {
+        p = new int[N];
+        next = new int [N];
+        size = new int[N];
+        sum = new long[N];
+        rank = new int[N];
+        for (int i = 0; i < N; i++) {
+            p[i] = i;
+            next[i] = i;
+            size[i] = 1;
+            sum[i] = i;
+            rank[i] = 0;
+        }
+    }
+
+    public int findSet(int i) {
+        while (next[i] != p[next[i]]) {
+            next[i] = p[next[i]];
+            //p[i] = findSet(p[i]);
+        }
+        return next[i];
+        /*while (p[i] != i) {
+            i = p[i];
+            p[i] = findSet(p[i]);
+        }
+        return p[i];*/
+        /*if (p[i] == i) return i;
+                else {
+                    p[i] = findSet(p[i]);
+                    return p[i];
+                }*/
+    }
+
+    public Boolean isSameSet(int i, int j) {
+        return findSet(i) == findSet(j);
+    }
+
+    public void unionSet(int i, int j) {
+        if (!isSameSet(i, j)) {
+            int x = findSet(i), y = findSet(j);
+            // rank is used to keep the tree short
+            if (rank[x] > rank[y]) {
+                p[y] = x;
+                next[i] = x;
+                size[x] += size[y];
+                sum[x] += sum[y];
+            } else {
+                p[x] = y;
+                next[i] = y;
+                size[y] += size[x];
+                sum[y] += sum[x];
+                if (rank[x] == rank[y])
+                    rank[y] = rank[y] + 1;
+            }
+        }
+    }
+
+    public void move(int i, int j) {
+        if (!isSameSet(i, j)) {
+            int x = findSet(i), y = findSet(j);
+            next[i] = y;
+            size[x]--;
+            size[y]++;
+            sum[x] -= i;
+            sum[y] += i;
+        }
+    }
+}
+
+    /*public int size(int i) {
+        int ans = 0;
+        int root = findSet(i);
+        for (int j = 0; j < p.length; j++) {
+            //p[j] = findSet(j);
+            if (p[j] == root) {
+                ans++;
+            }
+        }
+        return ans;
+    }
+
+    public int sum(int i) {
+        int ans = 0;
+        int root = findSet(i);
+        for (int j = 0; j < p.length; j++) {
+            //p[j] = findSet(j);
+            if (p[j] == root) {
+                ans += j;
+            }
+        }
+        return ans;
+    }
+}
+```
+
+## Weak Vertices
+
+```java
+import java.io.*;
+import java.util.*;
+
+public class weakvertices {
+    public static void main(String[] args) throws IOException {
+        FastIO fio = new FastIO();
+        int matrix_size = fio.nextInt();
+        while (matrix_size != -1) {
+            int[][] AdjMatrix = new int[matrix_size][matrix_size];
+            for (int i = 0; i < matrix_size; i++) {
+                for (int j = 0; j < matrix_size; j++) {
+                    AdjMatrix[i][j] = fio.nextInt();
+                }
+            }
+            boolean[] vertices = new boolean[matrix_size];
+            for (int a = 0; a < matrix_size; a++) {
+                for (int b = 0; b < matrix_size; b++) {
+                    for (int c = 0; c < matrix_size; c++) {
+                        if (AdjMatrix[a][b] == 1 && AdjMatrix[a][c] == 1 && AdjMatrix[b][c] == 1) {
+                            if (a != b && a != c && b != c) {
+                                vertices[a] = true;
+                                vertices[b] = true;
+                                vertices[c] = true;
+                            }
+                        }
+                    }
+                }
+            }
+            for (int k = 0; k < vertices.length; k++) {
+                if (!vertices[k]) {
+                    fio.print(k + " ");
+                }
+            }
+            fio.println();
+            /*for (int i = 0; i < matrix_size; i++) {
+                fio.println(Arrays.toString(AdjMatrix[i]));
+            }*/
+            matrix_size = fio.nextInt();
+        }
+        fio.flush();
+    }
+}
+
+class FastIO extends PrintWriter {
+    BufferedReader br;
+    StringTokenizer st;
+
+    public FastIO() {
+        super(new BufferedOutputStream(System.out));
+        br = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    String next() {
+        while (st == null || !st.hasMoreElements()) {
+            try {
+                st = new StringTokenizer(br.readLine());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return st.nextToken();
+    }
+
+    int nextInt() {
+        return Integer.parseInt(next());
+    }
+
+    long nextLong() {
+        return Long.parseLong(next());
+    }
+
+    double nextDouble() {
+        return Double.parseDouble(next());
+    }
+
+    String nextLine() {
+        String str = "";
+        try {
+            str = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+}
+```
+
+## Nicknames
+
+```java
+import java.io.*;
+import java.util.*;
+
+public class nicknames {
+    public static void main(String[] args) throws IOException {
+        FastIO fio = new FastIO();
+        int no_names = fio.nextInt();
+        HashMap<Character, AVL> treeHashMap = new HashMap<Character, AVL>();
+        for (int i = 0; i < no_names; i++) {
+            String name = fio.next();
+            char name_beginning_letter = name.charAt(0);
+            if (treeHashMap.containsKey(name_beginning_letter)) {
+                treeHashMap.get(name_beginning_letter).insert(name);
+            } else {
+                AVL tree = new AVL();
+                tree.insert(name);
+                treeHashMap.put(name_beginning_letter,tree);
+            }
+        }
+        int no_nicknames = fio.nextInt();
+        HashMap<String, Integer> nicknameHashMap = new HashMap<>(); //For duplicated nicknames
+        for (int j = 0; j < no_nicknames; j++) {
+            String nickname = fio.next();
+            char nickname_beginning_letter = nickname.charAt(0);
+            int ans = 0;
+            if (nicknameHashMap.containsKey(nickname)) {
+                ans = nicknameHashMap.get(nickname);
+            } else {
+                if (treeHashMap.containsKey(nickname_beginning_letter)) {
+                    AVL tree = treeHashMap.get(nickname_beginning_letter);
+                    Node max = AVL.findHighestValid(tree.root, nickname, null);
+                    ans = tree.count(max, nickname);
+//                    if (nickname.length() == 1) {
+//                        ans = tree.size;
+//                    } else {
+//                        Node max = AVLTree.findHighestValid(tree.root, nickname, null);
+//                        ans = tree.count(max, nickname);
+//                    }
+                }
+                nicknameHashMap.put(nickname, ans);
+            }
+            fio.println(ans);
+        }
+        fio.flush();
+    }
+}
+
+
+class Node {
+    String data;
+    Node parent, left, right;
+    int height;
+    int size;
+
+    Node(String data) {
+        this.data = data;
+        this.parent = null;
+        this.left = null;
+        this.right = null;
+        this.height = 0;
+        this.size = 1;
+    }
+
+@Override
+    public String toString() {
+        return this.data;
+    }
+}
+
+class AVL {
+    public Node root;
+
+    public int size = 0;
+
+    public AVL() {
+        root = null;
+    }
+
+    public int height(Node N) {
+        if (N == null) {
+            return 0;
+        }
+        return N.height;
+    }
+
+    public int size (Node N) {
+        if (N == null) {
+            return 0;
+        }
+        return N.size;
+    }
+    public void updateSize(Node N) {
+        if (N != null) {
+            N.size = size(N.left) + size(N.right) + 1;
+        }
+    }
+
+    public int max(int a, int b) {
+        return Math.max(a, b);
+    }
+
+    public Node rightRotate(Node y) {
+        if (y.left != null) {
+            Node x = y.left;
+            y.left = x.right;
+            if (x.right != null) {
+                x.right.parent = y;
+            }
+            x.parent = y.parent;
+            if (y.parent == null) {
+                this.root = x;
+            } else if (y == y.parent.right) {
+                y.parent.right = x;
+            } else {
+                y.parent.left = x;
+            }
+            x.right = y;
+            y.parent = x;
+            x.size = y.size;
+            updateSize(y);
+            y.height = max(height(y.left), height(y.right)) + 1;
+            x.height = max(height(x.left), height(x.right)) + 1;
+            return x;
+        }
+        return y;
+    }
+
+    public Node leftRotate(Node x) {
+        if (x.right != null) {
+            Node y = x.right;
+            x.right = y.left;
+            if (y.left != null) {
+                y.left.parent = x;
+            }
+            y.parent = x.parent;
+            if (x.parent == null) {
+                this.root = y;
+            } else if (x == x.parent.left) {
+                x.parent.left = y;
+            } else {
+                x.parent.right = y;
+            }
+            y.left = x;
+            x.parent = y;
+            y.size = x.size;
+            updateSize(x);
+            x.height = max(height(x.left), height(x.right)) + 1;
+            y.height = max(height(y.left), height(y.right)) + 1;
+            return y;
+        }
+        return x;
+    }
+
+    public int getBalance(Node N) {
+        if (N == null) {
+            return 0;
+        } else {
+            return height(N.left) - height(N.right);
+        }
+    }
+
+    public void insert(String data) {
+        this.size++;
+        this.root = insert(this.root, data);
+    }
+
+    public Node insert(Node node, String data) {
+        if (node == null) {
+            return (new Node(data));
+        }
+        if (data.compareTo(node.data) < 0) {//(data < node.data)
+            node.left = insert(node.left, data);
+            node.left.parent = node;
+        } else {//(data > node.data)
+            node.right = insert(node.right, data);
+            node.right.parent = node;
+        }
+        updateSize(node);
+        node.height = 1 + max(height(node.left), height(node.right));
+        int balance = getBalance(node);
+        if (balance > 1 && data.compareTo(node.left.data) < 0) { //data < node.left.data
+            return rightRotate(node);
+        } else if (balance < -1 && data.compareTo(node.right.data) > 0) {//data > node.right.data
+            return leftRotate(node);
+        } else if (balance > 1 && data.compareTo(node.left.data) > 0) { //data > node.left.data
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        } else if (balance < -1 && data.compareTo(node.right.data) < 0) { //data < node.right.data
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+        }
+        return node;
+    }
+
+    public void preOrder(Node node) {
+        if (node != null) {
+            System.out.print(node.data + " ");
+            preOrder(node.left);
+            preOrder(node.right);
+        }
+    }
+
+    public void inOrder() {
+        inOrderTraversal(root);
+    }
+
+    public  void inOrderTraversal(Node root) {
+        if (root != null) {
+            inOrderTraversal(root.left);
+            System.out.print(root.data + " ");
+            inOrderTraversal(root.right);
+        }
+    }
+
+    public static Node findHighestValid(Node node, String query, Node highestValid) {
+        if (node == null) {
+            return null;
+        }
+        //System.out.println("FindHighest: " + node + " L:" + node.left + "R:" + node.right);
+        String curr = node.data;
+        if (curr.indexOf(query) == 0) {
+            return node;
+        }
+        int compare = query.compareTo(curr);
+        if (compare < 0) {
+            return findHighestValid(node.left, query, highestValid);
+        } else if (compare > 0) {
+            return findHighestValid(node.right, query, highestValid);
+        }
+        return node;
+    }
+
+    public int count (Node node, String nickname) {
+        int counter = 0;
+        if (node == null) {
+            return counter;
+        }
+//        Node max = AVLTree.findHighestValid(this.root, nickname, null);
+//        System.out.println("Count: " + node + " L:" + node.left + "R:" + node.right);
+//        if (node.data.indexOf(nickname) == 0 ) {
+//            counter++;
+//        } else {
+//            return counter;
+//        }
+//        Boolean isEnd = false;
+//        counter = findLeft(node.left, nickname, isEnd);
+//        if (isEnd) {
+//            return counter;
+//        } else {
+//            return count(node.parent, counter, nickname);
+//        }
+        return 1 + findLeft(node.left, nickname, false) + findRight(node.right, nickname, false);
+    }
+
+    public int findLeft(Node node, String nickname, Boolean isEnd) {
+        int counter = 0;
+        if (node == null) {
+            return counter;
+        }
+        //System.out.println("FindLeft: " + node + " L:" + node.left + "R:" + node.right);
+        if (node.data.indexOf(nickname) == 0) {
+            counter += size(node.right); //weight(node.right);
+            //System.out.println();
+            return 1 + findLeft(node.left, nickname, isEnd) + counter;
+        } else {
+            isEnd = true;
+            return findLeft(node.right, nickname, isEnd);
+        }
+    }
+
+    public int findRight(Node node, String nickname, Boolean isEnd) {
+        int counter = 0;
+        if (node == null) {
+            return counter;
+        }
+        //System.out.println("FindRight: " + node + " L:" + node.left + "R:" + node.right);
+        if (node.data.indexOf(nickname) == 0) {
+            counter += size(node.left); //weight(node.left);
+            //System.out.println();
+            return 1 + findRight(node.right, nickname, isEnd) + counter;
+        } else {
+            isEnd = true;
+            return findRight(node.left, nickname, isEnd);
+        }
+    }
+}
+
+class FastIO extends PrintWriter {
+    BufferedReader br;
+    StringTokenizer st;
+
+    public FastIO() {
+        super(new BufferedOutputStream(System.out));
+        br = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    String next() {
+        while (st == null || !st.hasMoreElements()) {
+            try {
+                st = new StringTokenizer(br.readLine());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return st.nextToken();
+    }
+
+    int nextInt() {
+        return Integer.parseInt(next());
+    }
+
+    long nextLong() {
+        return Long.parseLong(next());
+    }
+
+    double nextDouble() {
+        return Double.parseDouble(next());
+    }
+
+    String nextLine() {
+        String str = "";
+        try {
+            str = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+}
+```
+
+## Islands
+
+```java
+import java.io.*;
+import java.util.*;
+
+public class islands {
+    public static void main(String[] args) throws IOException {
+        FastIO fio = new FastIO();
+        int no_rows = fio.nextInt();
+        int no_col = fio.nextInt();
+        char[][] map = new char[no_rows][no_col];
+        for (int i = 0; i < no_rows; i++) {
+            String line = fio.nextLine();
+            for (int j = 0; j < no_col; j++) {
+                map[i][j] = line.charAt(j);
+            }
+            //fio.print(Arrays.toString(map[i]));
+        }
+        boolean[][] visited = new boolean[no_rows][no_col];
+        int ans = 0;
+        for (int i = 0; i < no_rows; i++) {
+            for (int j = 0; j < no_col; j++) {
+                if (map[i][j] == 'L' && !visited[i][j]) {
+                    ans++;
+                    DFS(map, visited, i, j, no_rows, no_col);
+                }
+            }
+        }
+        fio.println(ans);
+        fio.flush();
+    }
+
+    public static void DFS(char[][] map, boolean[][] visited, int row, int column, int no_rows, int no_col) {
+        if (!visited[row][column]) {
+            visited[row][column] = true;
+            if (row + 1 < no_rows) {
+                if (!visited[row + 1][column]) { //|| !visited[row - 1][column] || !visited[row][column + 1] || !visited[row][column - 1] ){
+                    if (map[row + 1][column] == 'C' || map[row + 1][column] == 'L') {
+                        DFS(map, visited, row + 1, column, no_rows, no_col);
+                    }
+                }
+            }
+            if (row - 1 >= 0) {
+                if (!visited[row - 1][column]) {
+                    if (map[row - 1][column] == 'C' || map[row - 1][column] == 'L') {
+                        DFS(map, visited, row - 1, column, no_rows, no_col);
+                    }
+                }
+            }
+            if (column + 1 < no_col) {
+                if (!visited[row][column + 1]) {
+                    if (map[row][column + 1] == 'C' || map[row][column + 1] == 'L') {
+                        DFS(map, visited, row, column + 1, no_rows, no_col);
+                    }
+                }
+            }
+            if (column - 1 >= 0) {
+                if (!visited[row][column - 1]) {
+                    if (map[row][column - 1] == 'C' || map[row][column - 1] == 'L') {
+                        DFS(map, visited, row, column - 1, no_rows, no_col);
+                    }
+                }
+            }
+        }
+    }
+}
+
+class FastIO extends PrintWriter {
+    BufferedReader br;
+    StringTokenizer st;
+
+    public FastIO() {
+        super(new BufferedOutputStream(System.out));
+        br = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    String next() {
+        while (st == null || !st.hasMoreElements()) {
+            try {
+                st = new StringTokenizer(br.readLine());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return st.nextToken();
+    }
+
+    int nextInt() {
+        return Integer.parseInt(next());
+    }
+
+    long nextLong() {
+        return Long.parseLong(next());
+    }
+
+    double nextDouble() {
+        return Double.parseDouble(next());
+    }
+
+    String nextLine() {
+        String str = "";
+        try {
+            str = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+}
+```
+
+## Millionaire Madness
+
+```java
+import java.io.*;
+import java.util.*;
+import static java.lang.Math.abs;
+import static java.lang.Math.max;
+
+public class madness {
+    public static void main(String[] args) throws IOException {
+        Reader sc = new Reader();
+        PrintWriter pw = new PrintWriter(System.out);
+        int length = sc.nextInt();
+        int width = sc.nextInt();
+        int[][] vault = new int[length][width];
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < width; j++) {
+                vault[i][j] = sc.nextInt();
+            }
+            //pw.println(Arrays.toString(vault[i]));
+        }
+        boolean[][] visited = new boolean[length][width];
+        int ans = 0;
+        // Modified Prim's algo
+        PriorityQueue<int[]> pq = new PriorityQueue<int[]>(new PairComparator());
+        int[] start = {0, 0, vault[0][0], 0};
+        pq.add(start);
+        visited[0][0] = true;
+        while(!visited[length -1][width - 1]) {
+            int[] current = pq.poll();
+            visited[current[0]][current[1]] = true;
+            ans = Math.max(current[3], ans);
+            int[] horizontal = {0, 0, -1, 1};
+            int[] vertical = {1, -1, 0, 0};
+            for (int i = 0; i < 4; i++) {
+                int row = current[0] + vertical[i];
+                int column = current[1] + horizontal[i];
+                if (row > -1 && column > -1 && row < length && column < width) {
+                    if (!visited[row][column]) {
+                        int difference = vault[row][column] - current[2];
+                        int[] next = {row, column, vault[row][column], difference};
+                        pq.add(next);
+                    }
+                }
+            }
+        }
+//        ans = DFS(vault, visited, 0, 0, length, width, ans);
+        pw.print(ans);
+        pw.flush();
+    }
+}
+
+class PairComparator implements Comparator<int[]>{
+    public int compare (int[] arr1, int[] arr2) {
+        return Integer.compare(arr1[3], arr2[3]);
+    }
+}
+
+class Reader {
+    final private int BUFFER_SIZE = 1 << 16;
+    private DataInputStream din;
+    private byte[] buffer;
+    private int bufferPointer, bytesRead;
+    public Reader() {
+        din = new DataInputStream(System.in);
+        buffer = new byte[BUFFER_SIZE];
+        bufferPointer = bytesRead = 0;
+    }
+    public int nextInt() throws IOException {
+        int ret = 0;
+        byte c = read();
+        while (c <= ' ') c = read();
+        boolean neg = (c == '-');
+        if (neg) c = read();
+        do {
+            ret = ret * 10 + c - '0';
+        } while ((c = read()) >= '0' && c <= '9');
+        return neg ? -ret : ret;
+    }
+    private void fillBuffer() throws IOException {
+        bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+        if (bytesRead == -1) buffer[0] = -1;
+    }
+    private byte read() throws IOException {
+        if (bufferPointer == bytesRead) fillBuffer();
+        return buffer[bufferPointer++];
+    }
+}
+```
+
+## Lost Map
+
+```java
+import java.io.*;
+import java.util.*;
+
+public class lostmap {
+    public static void main(String[] args) throws IOException {
+        Reader sc = new Reader();
+        PrintWriter pw = new PrintWriter(System.out);
+        int no_villages = sc.nextInt();
+        ArrayList<int[]> EdgeList = new ArrayList<int[]>();
+        for (int i = 0; i < no_villages; i++) {
+            for (int j = 0; j < no_villages; j++) {
+                int weight = sc.nextInt();
+                if (weight != 0) {
+                    int[] arr = {i, j, weight};
+                    EdgeList.add(arr);
+                } else {
+                    continue;
+                }
+            }
+        }
+        Collections.sort(EdgeList, new TripleComp());
+        UnionFind UFDS = new UnionFind(no_villages);
+        for (int[] arr : EdgeList) {
+            if (!UFDS.isSameSet(arr[0], arr[1])) {
+                UFDS.unionSet(arr[0], arr[1]);
+                int vertex1 = arr[0] + 1;
+                int vertex2 = arr[1] + 1;
+                pw.print(vertex1 + " " + vertex2);
+                pw.println();
+            }
+        }
+        pw.flush();
+    }
+}
+
+class TripleComp implements Comparator<int[]>{
+    public int compare(int[] arr1, int[] arr2) {
+        return Integer.compare(arr1[2], arr2[2]);
+    }
+}
+
+class UnionFind {
+    public int[] p;
+    public int[] rank;
+
+    public UnionFind(int N) {
+        p = new int[N];
+        rank = new int[N];
+        for (int i = 0; i < N; i++) {
+            p[i] = i;
+            rank[i] = 0;
+        }
+    }
+
+    public int findSet(int i) {
+        if (p[i] == i) return i;
+        else {
+            p[i] = findSet(p[i]);
+            return p[i];
+        }
+    }
+
+    public boolean isSameSet(int i, int j) {
+        return findSet(i) == findSet(j);
+    }
+
+    public void unionSet(int i, int j) {
+        if (!isSameSet(i, j)) {
+            int x = findSet(i), y = findSet(j);
+            // rank is used to keep the tree short
+            if (rank[x] > rank[y])
+                p[y] = x;
+            else {
+                p[x] = y;
+                if (rank[x] == rank[y])
+                    rank[y] = rank[y] + 1;
+            }
+        }
+    }
+}
+
+class Reader {
+    final private int BUFFER_SIZE = 1 << 16;
+    private DataInputStream din;
+    private byte[] buffer;
+    private int bufferPointer, bytesRead;
+    public Reader() {
+        din = new DataInputStream(System.in);
+        buffer = new byte[BUFFER_SIZE];
+        bufferPointer = bytesRead = 0;
+    }
+    public int nextInt() throws IOException {
+        int ret = 0;
+        byte c = read();
+        while (c <= ' ') c = read();
+        boolean neg = (c == '-');
+        if (neg) c = read();
+        do {
+            ret = ret * 10 + c - '0';
+        } while ((c = read()) >= '0' && c <= '9');
+        return neg ? -ret : ret;
+    }
+    private void fillBuffer() throws IOException {
+        bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+        if (bytesRead == -1) buffer[0] = -1;
+    }
+    private byte read() throws IOException {
+        if (bufferPointer == bytesRead) fillBuffer();
+        return buffer[bufferPointer++];
+    }
+}
+```
+
+## Dominos
+
+```java
+import java.io.*;
+import java.util.*;
+
+public class Dominos {
+    public static void main(String[] args) throws IOException {
+        Reader sc = new Reader();
+        PrintWriter pw = new PrintWriter(System.out);
+        int no_cases = sc.nextInt();
+        for (int i = 0; i < no_cases; i++) {
+            int no_tiles = sc.nextInt();
+            int no_lines = sc.nextInt();
+            ArrayList<ArrayList<Integer>> AdjList = new ArrayList<ArrayList<Integer>>();
+            ArrayList<ArrayList<Integer>> TAdjList = new ArrayList<ArrayList<Integer>>(); //for transposed AdjList
+            int SCC = 0;
+            for (int j = 0; j < no_tiles + 1; j++) {
+                AdjList.add(new ArrayList<Integer>());
+                TAdjList.add(new ArrayList<Integer>());
+            }
+            for (int k = 0; k < no_lines; k++) {
+                int x = sc.nextInt();
+                int y = sc.nextInt();
+                ArrayList neighbour_list = AdjList.get(x);
+                neighbour_list.add(y);
+                ArrayList Tneighbour_list = TAdjList.get(y);
+                Tneighbour_list.add(x);
+            }
+//            for (int k = 0; k <= no_tiles; k++) {
+//                pw.println(AdjList.get(k));
+//                pw.println(TAdjList.get(k));
+//            }
+//            Kosaraju's algo to count no of SCCs
+//            Group all cyclic nodes into 1 bigger node
+//            DFS to find topo sort
+            DAG graph = new DAG(AdjList, TAdjList, no_tiles + 1);
+            SCC = graph.Kosaraju() - 1; // -1 due to extra node 0
+            pw.println(SCC);
+        }
+        pw.flush();
+    }
+}
+
+class DAG {
+    public ArrayList<ArrayList<Integer>> AdjList;
+    public ArrayList<ArrayList<Integer>> TAdjList;
+    public int size;
+
+    public DAG(ArrayList<ArrayList<Integer>> AdjList, ArrayList<ArrayList<Integer>> TAdjList, int size) {
+        this.AdjList = AdjList;
+        this.TAdjList = TAdjList;
+        this.size = size;
+    }
+
+    public int[] DFS(ArrayList<ArrayList<Integer>> Lst, int[] p, boolean[] visited, int u, int next) {
+        visited[u] = true;
+        p[u] = next;
+        for (int v : Lst.get(u)) {
+            if (visited[v]) {
+                continue;
+            } else {
+                DFS(Lst, p, visited, v, next);
+            }
+        }
+        return p;
+    }
+
+    public void DFS2(ArrayList<ArrayList<Integer>> Lst, Stack<Integer> s, boolean[] visited, int u) {
+        visited[u] = true;
+        for (int v : Lst.get(u)) {
+            if (visited[v]) {
+                continue;
+            } else {
+                DFS2(Lst, s, visited, v);
+            }
+        }
+        s.push(u);
+    }
+
+    public int Kosaraju() {
+        int[] p = new int[this.size];
+        boolean[] visited = new boolean[this.size];
+        Stack<Integer> s = new Stack<Integer>();
+        for (int i = 0; i < this.size; i++) {
+            if (visited[i]) {
+                continue;
+            } else {
+                DFS2(this.AdjList, s, visited, i);
+            }
+        }
+        boolean[] Tvisited = new boolean[this.size];
+        int next = 0;
+        while (s.size() > 0) {
+            int u = s.pop();
+            if (Tvisited[u]) {
+                continue;
+            } else {
+                next++;
+                DFS(this.TAdjList, p, Tvisited, u, next);
+            }
+        }
+        int ans = 0;
+        boolean[] arr = new boolean[next];
+        for (int i = 0; i < this.size; i++) {
+            for (int v : AdjList.get(i)) {
+                if (p[i] != p[v]) {
+                    if (arr[p[v]]) {
+                        continue;
+                    } else {
+                        arr[p[v]] = true;
+                        ans++;
+                    }
+                }
+            }
+        }
+        return next - ans;
+    }
+}
+
+class Reader {
+    final private int BUFFER_SIZE = 1 << 16;
+    private DataInputStream din;
+    private byte[] buffer;
+    private int bufferPointer, bytesRead;
+    public Reader() {
+        din = new DataInputStream(System.in);
+        buffer = new byte[BUFFER_SIZE];
+        bufferPointer = bytesRead = 0;
+    }
+    public int nextInt() throws IOException {
+        int ret = 0;
+        byte c = read();
+        while (c <= ' ') c = read();
+        boolean neg = (c == '-');
+        if (neg) c = read();
+        do {
+            ret = ret * 10 + c - '0';
+        } while ((c = read()) >= '0' && c <= '9');
+        return neg ? -ret : ret;
+    }
+    private void fillBuffer() throws IOException {
+        bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+        if (bytesRead == -1) buffer[0] = -1;
+    }
+    private byte read() throws IOException {
+        if (bufferPointer == bytesRead) fillBuffer();
+        return buffer[bufferPointer++];
+    }
+}
+```
+
+## Human Cannonball Run
+
+```java
+import java.io.*;
+import java.util.*;
+import static java.lang.Math.*;
+
+public class cannonball {
+    public static void main(String[] args) throws IOException {
+        FastIO fio = new FastIO();
+        double start_x = fio.nextDouble();
+        double start_y = fio.nextDouble();
+        double[] start = {start_x, start_y};
+        double end_x = fio.nextDouble();
+        double end_y = fio.nextDouble();
+        double[] end = {end_x, end_y};
+        int no_cannons = fio.nextInt();
+        double[][] cannons = new double[no_cannons][2];
+        for (int i = 0; i < no_cannons; i++) {
+            double x = fio.nextDouble();
+            double y = fio.nextDouble();
+            double[] cannon = {x, y};
+            cannons[i] = cannon;
+        }
+//        for (int i = 0; i < no_cannons; i++) {
+//            fio.println(Arrays.toString(cannons[i]));
+//        }
+        double[][] AdjMatrix = new double[no_cannons + 2][no_cannons + 2]; // +2 to size to account for start and end
+        AdjMatrix[1][0] = distance(start, end) / 5; // walk from start to end
+        AdjMatrix[0][1] = distance(start, end) / 5; // walk from end to start
+        for (int j = 0; j < no_cannons; j++) {
+            AdjMatrix[0][j + 2] = distance(start, cannons[j]) / 5; // walk from start to cannon
+            AdjMatrix[1][j + 2] = distance(end, cannons[j]) / 5; // walk from end to cannon
+            AdjMatrix[j + 2][0] = abs(distance(cannons[j], start) - 50) / 5 + 2; // launch from cannon and walk to start
+            AdjMatrix[j + 2][1] = abs(distance(cannons[j], end) - 50) / 5 + 2; // launch from cannon and walk to end
+            for (int k = 1; k < no_cannons; k++) {
+                AdjMatrix[j + 2][k + 2] = abs(distance(cannons[j], cannons[k]) - 50) / 5 + 2; // launch from cannon and walk to other cannon
+                AdjMatrix[k + 2][j + 2] = abs(distance(cannons[j], cannons[k]) - 50) / 5 + 2; // launch from cannon and walk to other cannon
+            }
+        }
+//        for (int i = 0; i < no_cannons+2; i++) {
+//            fio.println(Arrays.toString(AdjMatrix[i]));
+//        }
+
+        fio.println(Dijkstra(AdjMatrix, no_cannons));
+        fio.flush();
+    }
+
+    public static double distance(double[] arr1, double[] arr2) { // calculate distance using pythagoras thm
+        double x_diff = arr1[0] - arr2[0];
+        double y_diff = arr1[1] - arr2[1];
+        return hypot(x_diff, y_diff);
+    }
+
+    public static double Dijkstra(double[][] AdjMatrix, int no_cannons) {
+        double[] duration = new double[no_cannons + 2];
+        for (int i = 0; i < no_cannons + 2; i++) {
+            duration[i] = Double.MAX_VALUE;
+        }
+        PriorityQueue<IntegerPair> pq = new PriorityQueue<IntegerPair>(new PairComparator());
+        IntegerPair first = new IntegerPair(0, 0);
+        pq.add(first);
+        while (!pq.isEmpty()) {
+            IntegerPair current = pq.poll();
+            for (int i = 0; i < no_cannons + 2; i++) {
+                if (i != current.getIndex() && duration[i] > current.getDuration() + AdjMatrix[current.getIndex()][i] ) {
+                    duration[i] = current.getDuration() +  AdjMatrix[current.getIndex()][i];
+                    IntegerPair next = new IntegerPair(duration[i], i);
+                    pq.add(next);
+                }
+            }
+        }
+        return duration[1];
+    }
+}
+
+class IntegerPair {
+    public double duration;
+    public int index;
+
+    public IntegerPair(double time, Integer idx) {
+        duration = time;
+        index = idx;
+    }
+    public double getDuration() {
+        return duration;
+    }
+    public int getIndex() {
+        return index;
+    }
+}
+
+class PairComparator implements Comparator<IntegerPair> {
+    public int compare(IntegerPair i1, IntegerPair i2) {
+        return Double.compare(i1.getDuration(), i2.getDuration());
+    }
+}
+
+class FastIO extends PrintWriter {
+    BufferedReader br;
+    StringTokenizer st;
+    public FastIO() {
+        super(new BufferedOutputStream(System.out));
+        br = new BufferedReader(new InputStreamReader(System.in));
+    }
+    String next() {
+        while (st == null || ! st.hasMoreElements()) {
+            try { st = new StringTokenizer(br.readLine()); }
+            catch (IOException  e) { e.printStackTrace(); }
+        }
+        return st.nextToken();
+    }
+    int nextInt() { return Integer.parseInt(next()); }
+    long nextLong() { return Long.parseLong(next()); }
+    double nextDouble() { return Double.parseDouble(next()); }
+    String nextLine() {
+        String str = "";
+        try { str = br.readLine(); }
+        catch (IOException e) { e.printStackTrace(); }
+        return str;
+    }
+}
+```
