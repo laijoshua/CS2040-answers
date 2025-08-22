@@ -276,6 +276,15 @@ public class bestrelayteam {
 ```
 
 ## Sort of Sorting
+Can you believe school has already started? It seems like we were just finishing last semester. Last semester was tough because the administration had a hard time keeping records of all the students in order, which slowed everything down. This year, they are going to be on top of things. They have recognized that you have the skills to help them get into shape with your programming ability, and you have volunteered to help. You recognize that the key to getting to student records quickly is having them in a sorted order. However, they don’t really have to be perfectly sorted, just so long as they are sort-of sorted.
+
+Write a program that sorts a list of student last names, but the sort only uses the first two letters of the name. Nothing else in the name is used for sorting. However, if two names have the same first two letters, they should stay in the same order as in the input (this is known as a ‘stable sort’). Sorting is case sensitive based on ASCII order (with uppercase letters sorting before lowercase letters, i.e., $`A<B<...<Z<a<b<...<z`$).
+
+Input
+Input consists of a sequence of up to 500 test cases. Each case starts with a line containing an integer $`1\le n\le 200`$. After this follow $`n`$ last names made up of only letters (a–z, lowercase or uppercase), one name per line. Names have between 2 and 20 letters. Input ends when $`n`$=0.
+
+Output
+For each case, print the last names in sort-of-sorted order, one per line. Print a blank line between cases.
 
 ```java
 import java.io.*;
@@ -332,6 +341,28 @@ public class sortofsorting {
 ```
 
 ## Card Trading
+Anthony and Cora are playing Dominion, their favorite card game. In Dominion, there are $`T`$ different card types, and each player has a set of cards (known as a deck). A deck $`D`$ is said to have $`C`$ combos if $`C`$ is the largest integer such that for $`C`$ different card types in the game, $`D`$ contains at least two cards of that type. Anthony currently has $`N`$ cards and he wants to trade cards with Cora such that he’ll have a deck with exactly $`K`$ combos.
+
+For each card type $`T`$ ($`1\le i \le T`$), Anthony can choose to perform at most one transaction. There are two types of transactions:
+1. Buy up to two cards of $`i^{th}`$ type from Cora at $`a_i`$ coins each
+2. Sell all his cards of $`i^{th}`$ type for $`b_i`$ coins each
+
+Anthony wants to maximize his profit while obtaining a complete deck. Anthony is willing to spend coins in order to obtain a complete deck if necessary, but of course he wants to minimize his spending in that case. Note that he doesn’t care about keeping the rest of his cards which don’t contribute to the complete deck.
+
+Anthony has hired you to help him calculate how much money he can make if he chooses the optimal strategy for obtaining enough combos. If he has to spend money, output a negative number.
+
+Input
+The first line of the input contains three integers $`N, T`$ and $`K`$, $`1\le K\le T\le100000`$, $`1\le N\le 2T`$.
+
+The next line is a list of $`N`$ integers representing the cards in Anthony’s deck. Each integer on this line is between 1 and $`T`$ inclusive. It is guaranteed no integers appear more than twice.
+
+Finally, each of the next $`T`$ lines of the input contains two integers each. The $`i^{th}`$ line contains $`a_i`$ and $`b_i`$, $`1\le a_i,\ b_i\le10^9`$, corresponding to the price of buying and selling a card of type $`i`$.
+
+Output
+Output a single integer denoting Anthony’s profit assuming he trades optimally.
+
+Explanation of Sample Input
+In the first example, Anthony should sell two of card 1 and buy one of card 2 and one of card 3 for a net profit of 10 coins. If he chooses to sell one of card 3 and buy one of card 2, then he’ll end up spending 20 coins.
 
 ```java
 import java.util.*;
@@ -413,6 +444,25 @@ public class cardtrading {
 }
 ```
 ## Coconut Splat
+Coconut Splat is one of Theta’s favorite counting-out games. It goes like this: initially, all players stand in a circle with their hands folded together (like an intact coconut). In clockwise order, one player touches the hands of the other players and says the rhyme: “Co-co-nut, Co-co-nut, Co-co-nut, Splat!” At each syllable, the player touches a hand, and the player whose hand or hands is touched last takes one of the following actions:
+1. If the player’s hands are still folded, they are split into two fists (the coconut is cracked in two halves). The next round starts with the fist that is the first half of the coconut, then the second half, then going to the next player.
+2. If a fist is touched last, the hand is turned palm down (the milk spills out). The next round starts with the next hand in clockwise order, which could be the other hand of the same player, or it could be the hand or folded hands belonging to the next player.
+3. If a hand that is already turned palm down is touched last, the player to whom it belongs puts the hand behind their back and this hand won’t be counted in the following rounds. The next round starts with the next hand in clockwise order as in the previous case.
+4. If a player has put both of their hands behind their back, that player is out of the game. The game ends when there is only one player left.
+
+The hand or hands of the player doing the counting are taken into account (for instance, the counting player touches their thigh when it would be her turn to be touched).
+
+There are variations of this game, for instance, some kids say “Coconut, coconut, crack your nut!” instead, which has only 9 instead of 10 syllables as in the “Co-co-nut, Co-co-nut, Co-co-nut, Splat!” rhyme.
+
+There are $`n`$ players, and counting always starts with the folded hands of player 1. For instance, in the first round, if the rhyme has 3 syllables, player 3 would be the one to first crack their coconut into two fists.
+
+Write a program that determines the winner of the counting-out game based on the number of players and based on the number of syllables in the rhyme that is used!
+
+Input
+The input consists of a single test case with two numbers $`s`$ ($`0\le s\le 100`$) and $`n`$ ($`2\le n\le100`$) denoting the number of syllables in the rhyme and the number of players, respectively.
+
+Output
+Output a single integer $`p`$ ($`1\le p\le n`$), the number of the player who is left.
 
 ```java
 import java.io.*;
@@ -497,6 +547,20 @@ public class coconutsplat {
 ```
 
 ## Join Strings
+You are given a collection of $`N`$ non-empty strings, denoted by $`S_1,...,S_n`$. Then you are given $`N-1`$ operations which you execute in the order they are given. The $`i^{th}`$ operation is has the following format: ‘$`ab`$’ (1-based indexing, without the quotes), which means that you have to make the following changes:
+1. $`S_a=S_a+S_b`$, i.e. concatenate $`a^{th}`$ string and $`b^{th}`$ string and store the result in $`a^{th}`$ string
+2. $`S_b`$ = "", i.e. make the $`b^{th}`$ string empty, after doing the previous step.
+
+You are ensured that after the $`i^{th}`$ operation, there will be no future operation that will be accessing $`S_b`$. Given these operations to join strings, print the last string that will remain at the end of this process.
+
+Input
+The first line contains an integer $`N`$ ($`1\le N \le 10^5`$) denoting the number of strings given. Each of the next $`N`$ lines contains a string denoting the $`S_i`$. All the characters in the string $`S_i`$ are lowercase alphabets from ‘a’ to ‘z’. The total number of characters over all the strings is at most $`10^6`$, i.e $`\sum^N_{i=1}|S_i|\le10^6`$, where $`|S_i|`$ denotes the length of the $`i^{th}`$ string. After these $`N`$ strings, each of the next $`N-1`$ lines contain two integers $`a`$ and $`b`$, such that $`a\ne b`$ and $`1\le a,\ b\le N`$ denoting the $`i^{th}`$ operation.
+
+Output
+Print the last string which remains at the end of the $`N-1`$ operations.
+
+Warning
+The I/O files are large. Please use fast I/O methods.
 
 ```java
 import java.io.*;
@@ -617,6 +681,22 @@ class FastIO extends PrintWriter {
 ```
 
 ## Teque
+You have probably heard about the deque (double-ended queue) data structure, which allows for efficient pushing and popping of elements from both the front and back of the queue. Depending on the implementation, it also allows for efficient random access to any index element of the queue as well. Now, we want you to bring this data structure up to the next level, the teque (triple-ended queue)!
+
+The teque supports the following four operations:
+1. push_back x: insert the element $`x`$ into the back of the teque.
+2. push_front x: insert the element $`x`$ into the front of the teque.
+3. push_middle x: insert the element $`x`$ into the middle of the teque. The inserted element $`x`$ now becomes the new middle element of the teque. If $`k`$ is the size of the teque before the insertion, the insertion index for $`x`$ is $`\frac{k+1}{2}`$ (using 0-based indexing).
+4. get i: prints out the $`i^{th}`$ index element (0-based) of the teque.
+
+Input
+The first line contains an integer $`N`$ ($`1\le N\le 10^6`$) denoting the number of operations for the teque. Each of the next $`N`$ lines contains a string $`S`$, denoting one of the above commands, followed by one integer $`x`$. If $`S`$ is a push_back, push_front, or push_middle command, $`x`$ ($`1\le x\le 10^9`$), else for a get command, $`i`$ ($`0\le i \le \text{size of teque}-1`$). We guarantee that the teque is not empty when any get command is given.
+
+Output
+For each get i command, print the value inside the $`i^{th}`$ index element of the teque in a new line.
+
+Warning
+The I/O files are large. Please use fast I/O methods.
 
 ```java
 import java.io.*;
@@ -725,6 +805,15 @@ class FastIO extends PrintWriter {
 ```
 
 ## Conformity
+Frosh commencing their studies at Waterloo have diverse interests, as evidenced by their desire to take various combinations of courses from among those available.
+
+University administrators are uncomfortable with this situation, and therefore wish to offer a conformity prize to frosh who choose one of the most popular combinations of courses. How many frosh will win the prize?
+
+Input
+The input begins with an integer $`1\le n\le 10000`$, the number of frosh. For each frosh, a line follows containing the course numbers of five distinct courses selected by the frosh. Each course number is an integer between 100 and 499.
+
+Output
+The popularity of a combination is the number of frosh selecting exactly the same combination of courses. A combination of courses is considered most popular if no other combination has higher popularity. Output a single line giving the total number of students taking some combination of courses that is most popular.
 
 ```java
 import java.io.*;
@@ -802,6 +891,18 @@ class Reader {
 ```
 
 ## Assigning Workstations
+Penelope is part of the admin team of the newly built supercomputer. Her job is to assign workstations to the researchers who come here to run their computations at the supercomputer.
+Penelope is very lazy and hates unlocking machines for the arriving researchers. She can unlock the machines remotely from her desk, but does not feel that this menial task matches her qualifications. Should she decide to ignore the security guidelines she could simply ask the researchers not to lock their workstations when they leave, and then assign new researchers to workstations that are not used any more but that are still unlocked. That way, she only needs to unlock each workstation for the first researcher using it, which would be a huge improvement for Penelope.
+
+Unfortunately, unused workstations lock themselves automatically if they are unused for more than $`m`$ minutes. After a workstation has locked itself, Penelope has to unlock it again for the next researcher using it. Given the exact schedule of arriving and leaving researchers, can you tell Penelope how many unlockings she may save by asking the researchers not to lock their workstations when they leave and assigning arriving researchers to workstations in an optimal way? You may assume that there are always enough workstations available.
+
+Input
+The input consists of:
+1. one line with two integers $`n`$ ($`1\le n\le 300000`$), the number of researchers, and $`m`$ ($`1\le m\le 10^8`$), the number of minutes of inactivity after which a workstation locks itself;
+2. $`n`$ lines each with two integers $`a`$ and $`s`$ ($`1\le a,\ s\le 10^8`$), representing a researcher that arrives after $`a`$ minutes and stays for exactly $`s`$ minutes.
+
+Output
+Output the maximum number of unlockings Penelope may save herself.
 
 ```java
 import java.io.*;
@@ -908,6 +1009,20 @@ class Reader {
 ```
 
 ## Kattis's Quest
+Kattis the Cat enjoys clearing quests on her mobile game. Each quest has an energy consumption $`E`$, and gold reward $`G`$. However, as Kattis has become very busy lately with grading her student’s problem sets, she does not have much spare time as before to keep clearing quests. As such, she has adopted a new ‘greedy’ strategy to clear her quests in each session as quickly as possible. With energy $`X`$ for a session, she will do the following:
+1. Find the largest energy quest from the current pool of quest which is smaller or equal to $`X`$, if tied, by the largest gold reward
+2. Clear the quest, removing it from current pool. Reduce energy $`X`$ by $`E`$ of the quest, and add up the gold reward $`G`$ earned this session.
+3. Repeat steps 1 and 2 with remaining amount of energy, until energy left becomes 0, or if there are no more quests to be cleared with remaining energy.
+
+However, she is not sure if this strategy is optimal, and wants your help in determining how much she has earned in each playing session. Kattis the Cat will give a list of 2 commands:
+1. add E G: add a copy of the quest with energy consumption $`E`$ and gold reward $`G`$ into the pool
+2. query X: using the ‘greedy’ quest clearing strategy described above, print out the total amount of gold Kattis the Cat earned in this session with energy $`X`$.
+
+Input
+The first line contains an integer $`N`$ ($`1\le N\le 2*10^5`$) denoting the number of commands. Each of the next $`N`$ lines contains a string S, denoting one of the above commands. For the add command, two integers will follow, $`E`$ and $`G`$ ($`1\le E,\ G\le10^5`$), denoting the energy consumption and gold reward of the quest respectively. For the query command, one integer will follow, $`X`$ ($`1\le X\le10^5`$), denoting the amount of energy Kattis the Cat has for this session.
+
+Output
+For each query X command, print the amount of gold Kattis the Cat earned for that session in a new line.
 
 ```java
 import java.io.*;
@@ -1013,7 +1128,26 @@ class questComparator implements Comparator<ArrayList<Long>>{
 ```
 
 ## Almost Union Find
+I hope you know the beautiful Union-Find structure. In this problem, you’re to implement something similar, but not identical. The data structure you need to write is also a collection of disjoint sets, supporting 3 operations:
+1. $`1\ p\ q`$: Union the sets containing $`p`$ and $`q`$. If $`p`$ and $`q`$ are already in the same set, ignore this command.
+2. $`2\ p\ q`$: Move $`p`$ to the set containing $`q`$. If $`p`$ and $`q`$ are already in the same set, ignore this command
+3. $`3\ p`$Return the number of elements and the sum of elements in the set containing $`p`$.
 
+Initially, the collection contains $`n`$ sets: $`\{1\}, \{2\},...,\{n\}`$.
+
+As an example, consider the sequence of operations in sample input 1 below.
+1. Initially: $`\{1\}, \{2\},\{3\},\{4\},\{5\}`$
+2. Collection after operation 1 1 2: $`\{1,2\},\{3\},\{4\},\{5\}`$
+3. Collection after operation 2 3 4: $`\{1,2\},\{3,4\},\{5\}`$ (we omit the empty set that is produced when taking out 3 from $`\{3\}`$)
+4. Collection after operation 1 3 5: $`\{1,2\},\{3,4,5\}`$
+5. Collection after operation 2 4 1: $`\{1,2,4\},\{3,5\}`$
+
+Input
+There are several test cases. Each test case begins with a line containing two integers $`n`$ and $`m`$ ($`1\le n,\ m\le 100000`$), the number of integers, and the number of commands. Each of the next $`m`$ lines contains a command. For every operation, $`1\le p,\ q\le n`$. The input is terminated by end-of-file (EOF). There are at most 20 cases, and the size of the input file does not exceed 5 MB.
+
+Output
+For each type-3 command, output 2 integers: the number of elements and the sum of elements.
+ 
 ```java
 import java.io.*;
 import java.util.Arrays;
