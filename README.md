@@ -1131,7 +1131,7 @@ class questComparator implements Comparator<ArrayList<Long>>{
 I hope you know the beautiful Union-Find structure. In this problem, you’re to implement something similar, but not identical. The data structure you need to write is also a collection of disjoint sets, supporting 3 operations:
 1. $`1\ p\ q`$: Union the sets containing $`p`$ and $`q`$. If $`p`$ and $`q`$ are already in the same set, ignore this command.
 2. $`2\ p\ q`$: Move $`p`$ to the set containing $`q`$. If $`p`$ and $`q`$ are already in the same set, ignore this command
-3. $`3\ p`$Return the number of elements and the sum of elements in the set containing $`p`$.
+3. $`3\ p`$: Return the number of elements and the sum of elements in the set containing $`p`$.
 
 Initially, the collection contains $`n`$ sets: $`\{1\}, \{2\},...,\{n\}`$.
 
@@ -1306,6 +1306,13 @@ class UnionFind {
 ```
 
 ## Weak Vertices
+Engineers like to use triangles. It probably has something to do with how a triangle can provide a lot of structural strength. We can describe the physical structure of some designs using an undirected graph. We’ll say vertex $`i`$ is part of a triangle if $`i`$ has two different neighbors $`j`$ and $`k`$ such that $`j`$ and $`k`$ are neighbors of each other. For this problem, find weak vertices in graphs – those vertices that is not part of any triangle.
+
+Input
+Input consists of up to 100 graphs. Each starts with an integer, $`1\le n\le20`$, giving the number of vertices in the graph. Next come $`n`$ lines with $`n`$ integers on each line, which describe an $`n\times n`$ adjacency matrix for the graph. Vertices are numbered from 0 to $`n-1`$. If the adjacency matrix contains a one at row $`r`$, column $`c`$ (where $`0\le r,\ c\le n-1`$), it means that there is an edge from vertex $`r`$ to vertex $`c`$. Since the graph is undirected, the adjacency matrix is symmetric. The end of input is marked by a value of -1 for $`n`$.
+
+Output
+For each graph, produce a line listing the weak vertices ordered from least to greatest.
 
 ```java
 import java.io.*;
@@ -1396,6 +1403,35 @@ class FastIO extends PrintWriter {
 ```
 
 ## Nicknames
+You and your group of friends often use nicknames to refer to each other. One day, you noticed that some of the nicknames could refer to more than one person, which causes confusion. For example, jo could refer to either john or joseph. Your task is to determine how many names can be matched with a given nickname.
+
+A name and a nickname are said to match if and only if the nickname is a prefix of the name. In other words, given a name $`N`$ of length $`l_N`$ and a nickname $`K`$ of length $`l_K`$, $`N`$ and $`K`$ match if:
+1. $`l_N\ge l_K`$.
+2. $`N[0]=K[0],\ N[1]=K[1],...,\ N[l_K-1]=K[l_K-1]`$.
+
+You will be given a list of $`A`$ names and $`B`$ nicknames. For each nickname, print the number of names that match with it.
+
+Input
+The first line contains an integer, $`1\le A\le 100000`$, the number of names.
+
+The next $`A`$ lines contain the names, each name on one line. Each name is between 1 and 10 characters long and consists of lowercase letters only. All names are unique.
+
+The next line contains an integer, $`1\le B\le 100000`$, the number of nicknames.
+
+The next $`B`$ lines contain the nicknames, each nickname on one line. Each nickname is between 1 and 10 characters long and consists of lowercase letters only.
+
+Output
+For each nickname, print the number of names that it matches with. Output each integer on a separate line, in the same order as the input.
+
+Subtasks
+1. (40 Points): $`A,B\le 1000`$. All nicknames are exactly 1 character long.
+2. (30 Points): $`A,B\le 100000`$. All nicknames are exactly 1 character long.
+3. (30 Points): No additional constraint.
+
+Note: Sample Input 3 corresponds to Subtask 3. You can ignore it if you are only attempting Subtask 1 or 2.
+
+Warning
+The input files are large. Please use fast I/O methods.
 
 ```java
 import java.io.*;
@@ -1730,6 +1766,17 @@ class FastIO extends PrintWriter {
 ```
 
 ## Islands
+You are mapping a faraway planet using a satellite. The planet’s surface can be modeled as a grid. The satellite has captured an image of the surface. Each grid square is either land (denoted as ‘L’), water (denoted as ‘W’), or covered by clouds (denoted as ‘C’). Clouds mean that the surface could either be land or water; you cannot tell.
+
+An island is a region of land where every grid cell in the island is connected to every other by some path, and every leg of the path only goes up, down, left or right.
+
+Given an image, determine the minimum number of islands that is consistent with the given image.
+
+Input
+Each input will consist of a single test case. Note that your program may be run multiple times on different inputs. The first line of input contains two integers, $`r`$ and $`c`$ ($`1\le r,\ c\le 50`$), which are the number of rows and the number of columns of the image. The next $`r`$ lines will each contain exactly $`c`$ characters, consisting only of ‘L’ (representing Land), ‘W’ (representing Water), and ‘C’ (representing Clouds).
+
+Output
+Output a single integer, which is the minimum number of islands possible.
 
 ```java
 import java.io.*;
@@ -1842,6 +1889,21 @@ class FastIO extends PrintWriter {
 ```
 
 ## Millionaire Madness
+A close friend of yours, a duck with financial problems, has requested your help with a matter that will help him pay off his debts. He is the nephew of an extremely wealthy duck, who has a large vault, filled with mountains of coins. This wealthy duck has a certain coin in his possession which has a lot of sentimental value to him. Usually, it is kept under a protective glass dome on a velvet cushion.
+
+However, during a recent relocating of the coins in the vault, the special coin was accidentally moved into the vault, leading to an extremely stressful situation for your friend’s uncle. Luckily, the coin has recently been located. Unfortunately, it is completely opposite to the entrance to the vault, and due to the mountains of coins inside the vault, actually reaching the coin is no simple task.
+
+He is therefore willing to pay your friend to retrieve this coin, provided that he brings his own equipment to scale the mountains of coins. Your friend has decided he will bring a ladder, but he is still uncertain about its length. While a longer ladder means that he can scale higher cliffs, it also costs more money. He therefore wants to buy the shortest ladder such that he can reach the special coin, so that he has the largest amount of money left to pay off his debts.
+
+The vault can be represented as a rectangular grid of stacks of coins of various heights (in meters), with the entrance at the north west corner (the first height in the input, the entrance to the vault is at this height as well) and the special coin at the south east corner (the last height in the input). Your avian companion has figured out the height of the coins in each of these squares. From a stack of coins he can attempt to climb up or jump down to the stack immediately north, west, south or east of it. Because your friend cannot jump or fly (he is a very special kind of duck that even wears clothes), successfully performing a climb of $`n`$ meters will require him to bring a ladder of at least $`n`$ meters. He does not mind jumping down, no matter the height; he just lets gravity do all the work.
+
+Input
+The first line contains two integers: the length $`M`$, and the width $`N`$ of the vault, satisfying $`1\le M,\ N\le 1000`$.
+
+The following $`M`$ lines each contain $`N`$ integers. Each integer specifies the height of the pile of coins in the vault at the corresponding position. (The first line describes the north-most stacks from west to east; the last line describes the south-most stacks from west to east). The heights are given in meters and all heights are at least 0 and at most $`10^9`$ (yes, your friend’s uncle is very rich).
+
+Output
+Output a single line containing a single integer: the length in meters of the shortest ladder that allows you to get from the north west corner to the south east corner.
 
 ```java
 import java.io.*;
@@ -1932,6 +1994,19 @@ class Reader {
 ```
 
 ## Lost Map
+Somewhere in a mountainous region of the world is a collection of $`n`$ villages. Connecting these villages to one another is a series of roads, always running directly between two villages and allowing travel in both directions. Due to the treacherous landscape, building these roads is expensive, so the minimum number of roads have been constructed such that each village can reach every other village via a sequence of roads.
+
+Trade between these villages is very important, since not every village has access to the same supply of natural resources. Many villages produce the same resource, however, so it is useful for villages to know their relative distance to other villages so that they can choose trading partners to minimize overall trading costs. Note that the distance between two villages $`a`$ and $`b`$ is the sum of the lengths of the individual roads on the shortest path that connects $`a`$ and $`b`$.
+
+A project has been underway to compute the distance between every pair of villages. This information has been incorporated in a table, along with a map that shows the layout of villages and roads that run between them. You have been assigned the task of distributing the table and map to all the villages for the betterment of the regional economy.
+
+Unfortunately, not long after you were given this task, a gust of wind blew the map right out of your hand and into the countryside. Despite your best efforts of searching for it, you have been unable to locate it. You know that you could visit all the villages to reconstruct the map and THEN start distributing the map and table, but this will take twice as long as the original task and the villages will be very displeased with you. You wonder, maybe it’s possible to reconstruct the map given only the table?
+
+Input
+The first line of input will contain the integer $`n`$ ($`2\le n\le 2500`$), the number of villages in this region. The next $`n`$ lines will contain $`n`$ integers each. The $`j^{th}`$ integer of the $`i^{th}`$ line is the distance from village $`i`$ to village $`j`$. All distances are greater than zero unless $`i=j`$, less than $`10^7`$, and it is guaranteed that the distance from village $`i`$ to village $`j`$ is the same as the distance from village $`j`$ to village $`i`$.
+
+Output
+For each test case, output $`n-1`$ lines with two integers $`u`$ and $`v`$ on each line, indicating that there is a road connecting villages $`u`$ and $`v`$ in this region. Assume the villages are numbered from 1 to $`n`$. Any solution that outputs the original set of roads will be accepted.
 
 ```java
 import java.io.*;
@@ -2048,6 +2123,15 @@ class Reader {
 ```
 
 ## Dominos
+Dominos are lots of fun. Children like to stand the tiles on their side in long lines. When one domino falls, it knocks down the next one, which knocks down the one after that, all the way down the line. However, sometimes a domino fails to knock the next one down. In that case, we have to knock it down by hand to get the dominos falling again.
+
+Your task is to determine, given the layout of some domino tiles, the minimum number of dominos that must be knocked down by hand in order for all of the dominos to fall.
+
+Input
+The first line of input contains one integer specifying the number of test cases to follow. Each test case begins with a line containing two integers, each no larger than 100000. The first integer $`n`$ is the number of domino tiles and the second integer $`m`$ is the number of lines to follow in the test case. The domino tiles are numbered from 1 to $`n`$. Each of the following lines contains two integers $`x`$ and $`y`$ indicating that if domino number $`x`$ falls, it will cause domino number $`y`$ to fall as well.
+
+Output
+For each test case, output a line containing one integer, the minimum number of dominos that must be knocked over by hand in order for all the dominos to fall.
 
 ```java
 import java.io.*;
@@ -2200,6 +2284,16 @@ class Reader {
 ```
 
 ## Human Cannonball Run
+You are a world-famous circus performer, a human cannonball. This means that you climb into a big, fake cannon and launch yourself great distances to delight young and old alike. Today, you’re not alone. You are at the international human cannonball conference and exposition, where hundreds of similar circus performers have gathered together to share their experiences and practice their craft. While you normally have just one cannon to work with, at the conference there are usually lots of cannons to examine and try out.
+
+The availability of several cannons creates some interesting opportunities for navigating the conference. If you want to travel quickly from point $`a`$ to point $`b`$, you could just run straight from $`a`$ to $`b`$, or, you could run to a nearby cannon and launch yourself somewhere else. From there, you can continue to run toward your destination or you can continue to use cannons in an effort to get to your destination more quickly. With cannons positioned like Figure 1, you could follow a path like the one in Figure 2 to get from $`a`$ to $`b`$. The arrows show places where you launched yourself out of a cannon, and the lines show where you ran to the next cannon or to your destination.
+You run at a rate of 5 meters per second. All cannons launch you a distance of 50 meters, in any direction you’d like. Climbing into a cannon, launching yourself and landing takes a total of 2 seconds. Cannons are not obstacles; if a cannon is in your way, you can jump over or run around it without it slowing you down. Given your current location, a desired destination and the positions of available cannons, you want to plan how to get to the destination as quickly as possible.
+
+Input
+The input describes a single navigation problem. The first line gives a pair of real numbers, the $`X`$ and $`Y`$ coordinates where you’re currently located. The next line give the real-valued $`X`$ and $`Y`$ coordinates of the location you’d like to reach. This is followed by a line with an integer, $`n`$, the number of cannons available. The remaining $`n`$ input lines each contain a pair of real values giving the $`X`$ and $`Y`$ coordinates for a cannon. All coordinates are measured in meters, and the value of $`n`$ will be between 0 and 100, inclusive.
+
+Output
+Print a single line of output, the total number of seconds required to reach your destination as quickly as possible. Your answer must be accurate to within 0.001 seconds.
 
 ```java
 import java.io.*;
