@@ -32,9 +32,7 @@ My answers to CS2040's one day assignments &amp; take home assignments, all of w
 Great scientific discoveries are often named by the last names of scientists that made them. For example, the most popular asymmetric cryptography system, RSA was discovered by Rivest, Shamir and Adleman. Another notable example is the Knuth-Morris-Pratt algorithm, named by Knuth, Morris and Pratt. Scientific papers reference earlier works a lot and it’s not uncommon for one document to use two different naming conventions: the short variation (e.g. KMP) using only the first letters of authors last names and the long variation (e.g. Knuth-Morris-Pratt) using complete last names separated by hyphens. We find mixing two conventions in one paper to be aesthetically unpleasing and would like you to write a program that will transform long variations into short.
 
 Input
-The first and only line of input will contain at most 
- characters, uppercase and lowercase letters of the English alphabet and hyphen (‘-’ ASCII 
-). The first character will always be an uppercase letter. Hyphens will always be followed by an uppercase letter. All other characters will be lowercase letters.
+The first and only line of input will contain at most 100 characters, uppercase and lowercase letters of the English alphabet and hyphen (‘-’ ASCII 45). The first character will always be an uppercase letter. Hyphens will always be followed by an uppercase letter. All other characters will be lowercase letters.
 
 Output
 The first and only line of output should contain the appropriate short variation.
@@ -59,10 +57,10 @@ public class autori {
 ```
 
 ## Take Two Stones
-Alice and Bob are playing a new game of stones. There are N stones placed on the ground, forming a sequence. The stones are labeled from 1 to N. Alice and Bob in turns take exactly two consecutive stones on the ground until there are no consecutive stones on the ground. That is, each player can take stone i and stone i+1, where 1<=i<=N-1. If the number of stone left is odd, Alice wins. Otherwise, Bob wins. Assume both Alice and Bob play optimally and Alice plays first, do you know who the winner is?
+Alice and Bob are playing a new game of stones. There are N stones placed on the ground, forming a sequence. The stones are labeled from 1 to N. Alice and Bob in turns take exactly two consecutive stones on the ground until there are no consecutive stones on the ground. That is, each player can take stone $`i`$ and stone $`i+1`$, where $`1\le i\le N-1`$. If the number of stone left is odd, Alice wins. Otherwise, Bob wins. Assume both Alice and Bob play optimally and Alice plays first, do you know who the winner is?
 
 Input
-The input contains an integer N (1<=N<=10000000), the number of stones.
+The input contains an integer N ($`1\le N\le 10000000`$), the number of stones.
 
 Output
 Output the winner, “Alice” or “Bob” (without the quotes), on a line.
@@ -91,7 +89,7 @@ public class twostones {
 As a Swede, you hold a deep love for the traditional Thursday lunch of pea soup and pancakes. You love it so much, in fact, that you will eat it any meal it is available. You find yourself looking at the menus for all your favorite restaurants every day to see if this combination is available, and realized you can do this more easily with a program. Given a list of restaurant menus, decide where to eat.
 
 Input
-The first line of input contains a number n (1<=n<=10), the number of restaurants. Then follow the n restaurant menus. Each menu starts with a line containing a number k (1<=k<=10), the number of menu items for the day. The remainder of the menu consists of k+1 lines, each containing a nonempty string of at most 100 characters. The first of these lines is the restaurant name, and the rest are menu items. Strings consist only of lower case letters ‘a’-‘z’ and spaces, and they always start and end with a letter. All restaurant names are unique.
+The first line of input contains a number $`n`$ ($`1\le n\le 10`$), the number of restaurants. Then follow the n restaurant menus. Each menu starts with a line containing a number $`k`$ ($`1\le k\le 10`$), the number of menu items for the day. The remainder of the menu consists of $`k+1`$ lines, each containing a nonempty string of at most 100 characters. The first of these lines is the restaurant name, and the rest are menu items. Strings consist only of lower case letters ‘a’-‘z’ and spaces, and they always start and end with a letter. All restaurant names are unique.
 
 Output
 Output a single line. If at least one restaurant has both “pea soup” and “pancakes” as menu items, output the name of the first of those restaurants, by the order in which the restaurants appear in the input. Otherwise, output “Anywhere is fine I guess”.
@@ -135,7 +133,7 @@ public class peasoup {
 The Latin alphabet contains 26 characters and telephones only have ten digits on the keypad. We would like to make it easier to write a message to your friend using a sequence of keypresses to indicate the desired characters. The letters are mapped onto the digits as shown below. To insert the character ‘B’ for instance, the program would press “22”. In order to insert two characters in sequence from the same key, the user must pause before pressing the key a second time. The space character ‘ ’ should be printed to indicate a pause. For example, “2 2” indicates “AA” whereas “22” indicates “B”.
 
 Input
-The first line of input gives the number of cases, N (1<=N<=100). N test cases follow. Each case is a line of text containing the desired message, which will be at most 1000 characters long. Each message will consist of only lowercase characters ‘a’–‘z’ and space characters ‘ ’. Pressing zero emits a space.
+The first line of input gives the number of cases, $`N`$ ($`1\le N\le 100`$). $`N`$ test cases follow. Each case is a line of text containing the desired message, which will be at most 1000 characters long. Each message will consist of only lowercase characters ‘a’–‘z’ and space characters ‘ ’. Pressing zero emits a space.
 
 Output
 For each test case, output one line containing “Case #x:" followed by the message translated into the sequence of key presses.
@@ -201,7 +199,7 @@ public class t9spelling {
 You are the coach of the national athletics team and need to select which sprinters should represent your country in the 4 x 100 m relay in the upcoming championships. As the name of the event implies, such a sprint relay consist of 4 legs, 100 meters each. One would think that the best team would simply consist of the 4 fastest 100 m runners in the nation, but there is an important detail to take into account: flying start. In the 2nd, 3rd and 4th leg, the runner is already running when the baton is handed over. This means that some runners – those that have a slow acceleration phase – can perform relatively better in a relay if they are on the 2nd, 3rd or 4th leg. You have a pool of runners to choose from. Given how fast each runner in the pool is, decide which four runners should represent your national team and which leg they should run. You are given two times for each runner – the time the runner would run the 1st leg, and the time the runner would run any of the other legs. A runner in a team can only run one leg.
 
 Input
-The first line of input contains an integer n, the number of runners to choose from (4<=n<=500). Then follow n lines describing the runners. The i’th of these lines contains the name of the i’th runner, the time $`a_i`$ for the runner to run the 1st leg, and the time $`b_i`$ for the runner to run any of the other legs ($`8\le b_i\le a_i<20`$). The names consist of between 2 and 20 (inclusive) uppercase letters ‘A’-‘Z’, and no two runners have the same name. The times are given in seconds with exactly two digits after the decimal point.
+The first line of input contains an integer n, the number of runners to choose from ($`4\le n\le 500`$). Then follow $`n`$ lines describing the runners. The $`i`$’th of these lines contains the name of the $`i`$’th runner, the time $`a_i`$ for the runner to run the 1st leg, and the time $`b_i`$ for the runner to run any of the other legs ($`8\le b_i\le a_i<20`$). The names consist of between 2 and 20 (inclusive) uppercase letters ‘A’-‘Z’, and no two runners have the same name. The times are given in seconds with exactly two digits after the decimal point.
 
 Output
 First, output a line containing the time of the best team, accurate to an absolute or relative error of at most $`10^{-9}`$. Then output four lines containing the names of the runners in that team. The first of these lines should contain the runner you have picked for the 1st leg, the second line the runner you have picked for the 2nd leg, and so on. Any solution that results in the fastest team is acceptable.
